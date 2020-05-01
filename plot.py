@@ -72,7 +72,7 @@ def run_plot(base: int):
     stride = 10
 
     # plt.plot(indices, new_cases)
-    plot_factors(new_cases[5:], infection_factors_percent)
+    plot_factors(new_cases[base:], infection_factors_percent)
 
 
 
