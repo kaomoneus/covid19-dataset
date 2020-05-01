@@ -28,12 +28,13 @@ def infection_factors_percent(new_cases: List[int]):
 
 
 def plot_factors(
+    offset: int,
     data: List[int],
     factors_function: Callable[[List[int]], List[float]]
 ):
 
     # exclude base from indices
-    indices = range(1, len(data))
+    indices = range(offset + 1, offset + len(data))
 
     fig, ax1 = plt.subplots()
 
@@ -72,7 +73,7 @@ def run_plot(base: int):
     stride = 10
 
     # plt.plot(indices, new_cases)
-    plot_factors(new_cases[base:], infection_factors_percent)
+    plot_factors(base, new_cases[base:], infection_factors_percent)
 
 
 
