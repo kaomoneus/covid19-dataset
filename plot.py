@@ -68,9 +68,12 @@ class Covid19Dataset:
     ):
         self.json_data = requests.get(url).json()
         self.dates = self.json_data['russia_stat_struct']['dates']
-        self.russia_stat = [
-            value for _, value in self.json_data['russia_stat_struct']['data'].items()
-        ]
+        self.russia_stat = sorted(
+            [
+                value for _, value in self.json_data['russia_stat_struct']['data'].items()
+            ],
+            key=lambda s: s['info']['name']
+        )
 
     class Region:
         def __init__(self, region_id: int, name: str):
@@ -83,14 +86,9 @@ class Covid19Dataset:
     @cached_property
     def regions(self) -> List[Region]:
 
-        sorted_stat = sorted(
-            self.russia_stat,
-            key=lambda s: s['info']['name']
-        )
-
         regions = [
-            Covid19Dataset.Region(i, sorted_stat[i]['info']['name'])
-            for i in range(0, len(sorted_stat))
+            Covid19Dataset.Region(i, self.russia_stat[i]['info']['name'])
+            for i in range(0, len(self.russia_stat))
         ]
 
         return regions
