@@ -67,7 +67,7 @@ class Covid19Dataset:
 
     def __init__(
             self,
-            url: str = 'https://yastat.net/s3/milab/2020/covid19-stat/data/data_struct_1.json'
+            url: str = 'https://yastat.net/s3/milab/2020/covid19-stat/data/data_struct_10.json'
     ):
         self.json_data = requests.get(url).json()
         self.russia_dates = self.json_data['russia_stat_struct']['dates']
