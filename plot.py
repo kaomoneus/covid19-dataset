@@ -45,7 +45,7 @@ def plot_factors(
     color = '#ff0000'
     ax1.set_xlabel('day')
     ax1.set_ylabel('new', color=color)
-    ax1.plot_russia(
+    ax1.plot(
         actual_dates,
         new_cases[1:] if compare_with_new else cases[1:],
         color=color
@@ -56,7 +56,7 @@ def plot_factors(
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
     color = 'tab:blue'
     ax2.set_ylabel('factor %', color=color)  # we already handled the x-label with ax1
-    ax2.plot_russia(indices, factors_function(cases), color=color)
+    ax2.plot(indices, factors_function(cases), color=color)
     ax2.tick_params(axis='y', labelcolor=color)
 
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
