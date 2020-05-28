@@ -63,52 +63,27 @@ def plot_factors(
     plt.show()
 
 
+
+
 class Covid19Dataset:
 
-    def __init__(
-            self,
-            url: str = 'https://yastat.net/s3/milab/2020/covid19-stat/data/data_struct_10.json'
-    ):
-        self.json_data = requests.get(url).json()
-        self.russia_dates = self.json_data['russia_stat_struct']['dates']
-        self.russia_stat = sorted(
-            [
-                value for _, value in self.json_data['russia_stat_struct']['data'].items()
-            ],
-            key=lambda s: s['info']['name']
-        )
 
-        self.world_dates = self.json_data['world_stat_struct']['dates']
-        self.world_stat = sorted(
-            [
-                value for _, value in self.json_data['world_stat_struct']['data'].items()
-            ],
-            key=lambda s: s['info']['name']
-        )
-
-    class Region:
-        def __init__(self, region_id: int, name: str):
-            self.id = region_id
-            self.name = name
-
-        def __repr__(self):
-            return self.name
 
     @cached_property
-    def regions(self) -> List[Region]:
+    def regions(self) -> List[RegionDataSource]:
 
         regions = [
-            Covid19Dataset.Region(i, self.russia_stat[i]['info']['name'])
+            Covid19Dataset.RegionDataSource(i, self.russia_stat[i]['info']['name'])
             for i in range(0, len(self.russia_stat))
         ]
 
         return regions
 
     @cached_property
-    def world_regions(self) -> List[Region]:
+    def world_regions(self) -> List[RegionDataSource]:
 
         regions = [
-            Covid19Dataset.Region(i, self.world_stat[i]['info']['name'])
+            Covid19Dataset.RegionDataSource(i, self.world_stat[i]['info']['name'])
             for i in range(0, len(self.world_stat))
         ]
 
@@ -129,6 +104,10 @@ class Covid19Dataset:
             if r.name == 'Мир':
                 return r.id
         return 0
+
+    @cached_property
+    def new_cases_russia(self) -> List[int]:
+
 
     def plot_russia(self, base: int, region_id: int, show_new: bool):
         total = self.russia_stat[region_id]['cases']

@@ -1,2 +1,3 @@
 matplotlib
 cached_property
+sqlalchemy
